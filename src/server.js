@@ -2,13 +2,11 @@
 
 import express from 'express';
 import bodyParser from 'body-parser';
-import { MongoClient, ObjectID } from 'mongodb';
+import { ObjectID } from 'mongodb';
 
+import db from './db';
 // express application
 const app = express();
-
-// mongo db
-let db;
 
 // parse req.body json
 app.use(bodyParser.json());
@@ -20,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/artists', (req, res) => {
-  db.collection('artists').find().toArray((err, docs) => {
+  db.get().collection('artists').find().toArray((err, docs) => {
     if (err) {
       global.console.log(err);
       return res.sendStatus(500);
@@ -34,7 +32,7 @@ app.post('/artists', (req, res) => {
     name: req.body.name,
   };
 
-  db.collection('artists').insert(artist, (err) => {
+  db.get().collection('artists').insert(artist, (err) => {
     if (err) {
       global.console.log(err);
       return res.sendStatus(500);
@@ -44,7 +42,7 @@ app.post('/artists', (req, res) => {
 });
 
 app.put('/artists/:id', (req, res) => {
-  db.collection('artists').updateOne(
+  db.get().collection('artists').updateOne(
     { _id: ObjectID(req.params.id) },
     { name: req.body.name },
     (err) => {
@@ -57,7 +55,7 @@ app.put('/artists/:id', (req, res) => {
 });
 
 app.delete('/artists/:id', (req, res) => {
-  db.collection('artists').deleteOne(
+  db.get().collection('artists').deleteOne(
     { _id: ObjectID(req.params.id) },
     (err) => {
       if (err) {
@@ -70,7 +68,7 @@ app.delete('/artists/:id', (req, res) => {
 });
 
 app.get('/artists/:id', (req, res) => {
-  db.collection('artists').findOne({ _id: ObjectID(req.params.id) }, (err, doc) => {
+  db.get().collection('artists').findOne({ _id: ObjectID(req.params.id) }, (err, doc) => {
     if (err) {
       global.console.log(err);
       return res.sendStatus(500);
@@ -80,11 +78,10 @@ app.get('/artists/:id', (req, res) => {
 });
 
 
-MongoClient.connect('mongodb://localhost:27017/simple-node-api', (err, database) => {
+db.connect('mongodb://localhost:27017/simple-node-api', (err) => {
   if (err) {
     return global.console.log(err);
   }
-  db = database;
   app.listen(3012, () => {
     global.console.log('API started!');
   });
