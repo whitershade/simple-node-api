@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 
 import db from './db';
 
-import artistsController from '../controllers/artists';
+import artistsController from './controllers/artists';
 
 
 // express application

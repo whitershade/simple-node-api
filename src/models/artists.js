@@ -1,6 +1,6 @@
 import { ObjectID } from 'mongodb';
 
-import db from '../src/db';
+import db from '../db';
 
 
 exports.all = (cb) => {
