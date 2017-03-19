@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "rimraf ./dist && babel -d ./dist ./src -s && node dist/server.js",
-    "dev": "node dev.js",
+    "dev": "nodemon dev.js",
     "lint:js": "eslint ./src",
     "lint-staged": "lint-staged"
   },
@@ -15,6 +15,7 @@
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-preset-env": "^1.2.2",
+    "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "rimraf": "^2.6.1"
   },
